@@ -105,7 +105,7 @@ public class UserServiceImpl implements UserService {
 	    }
 	    userDao.save(user);
 	    String message = user + "  added successfully.";
-	    return new ResponseEntity<>(message, HttpStatus.CREATED);
+	    return new ResponseEntity<>(HttpStatus.CREATED);
 
 //		userDao.save(user);
 //		return user;
