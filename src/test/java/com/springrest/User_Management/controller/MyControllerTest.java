@@ -99,14 +99,16 @@ class MyControllerTest {
         //list1.add(mockUser);
 
         String inputInJson = mapper.writeValueAsString(mockUser);
+        String id = "abc";
         String URI = "/users/{id}";
-        ResponseEntity<User> mockResponseEntity = Mockito.mock(ResponseEntity.class);
-        Mockito.when(mockResponseEntity.getStatusCode()).thenReturn(HttpStatus.OK);
-        Mockito.when(mockResponseEntity.getBody()).thenReturn(mockUser);
+        ResponseEntity<?> mockResponseEntity = new ResponseEntity<>(mockUser,HttpStatus.OK);
+//                Mockito.mock(ResponseEntity.class);
+//        Mockito.when(mockResponseEntity.getStatusCode()).thenReturn(HttpStatus.OK);
+//        Mockito.when(mockResponseEntity.getBody()).thenReturn(mockUser);
         //var v = new ResponseEntity<>(message, HttpStatus.CREATED);
 
-        Mockito.when(userService.getUser(Mockito.any(String.class))).thenReturn(new ResponseEntity<User>(mockUser,HttpStatus.OK));
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.get(URI).accept(MediaType.APPLICATION_JSON);
+       // Mockito.when(userService.getUser(Mockito.any(String.class))).thenReturn(mockResponseEntity);
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.get(URI,id).accept(MediaType.APPLICATION_JSON);
 
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
         MockHttpServletResponse response = result.getResponse();
@@ -115,7 +117,7 @@ class MyControllerTest {
 //        System.out.println(list);
 //        System.out.println(expectedJson);
 //        System.out.println(outputInJson);
-        assertEquals(HttpStatus.CREATED.value(),response.getStatus());
+        assertEquals(HttpStatus.OK.value(),response.getStatus());
     }
 
     @Test
@@ -132,10 +134,6 @@ class MyControllerTest {
         String inputInJson = mapper.writeValueAsString(mockUser);
         String message = mockUser + "  added successfully.";
         String URI = "/users";
-//        ResponseEntity<?> mockResponseEntity = Mockito.mock(ResponseEntity.class);
-//        Mockito.when(mockResponseEntity.getStatusCode()).thenReturn(HttpStatus.CREATED);
-        //Mockito.when(mockResponseEntity.getBody()).thenReturn(null);
-        //var v = new ResponseEntity<>(message, HttpStatus.CREATED);
         Mockito.when(userService.addUser(Mockito.any(User.class))).thenReturn(new ResponseEntity<>(HttpStatus.CREATED));
         RequestBuilder requestBuilder = MockMvcRequestBuilders.post(URI).accept(MediaType.APPLICATION_JSON).content(inputInJson).contentType(MediaType.APPLICATION_JSON);
 
@@ -143,10 +141,49 @@ class MyControllerTest {
         MockHttpServletResponse response = result.getResponse();
         //String expectedJson = mapper.writeValueAsString(list);
         String outputInJson = result.getResponse().getContentAsString();
-//        System.out.println(list);
-//        System.out.println(expectedJson);
-//        System.out.println(outputInJson);
         assertEquals(HttpStatus.CREATED.value(),response.getStatus());
 
     }
+
+    @Test
+    public void updateuser() throws Exception {
+        User mockUser = new User();
+        mockUser.setid("abc");
+        mockUser.setEmail("abc@gmail.com");
+        mockUser.setAddress1("abc,sdk,dsk");
+        mockUser.setAddress2("abc,xcjgd,sdh");
+        mockUser.setMobileNo(7390937904L);
+        mockUser.setFirstname("abcdvr");
+        mockUser.setLastname("dsdsfd");
+
+        String inputInJson = mapper.writeValueAsString(mockUser);
+        String id = "abc";
+        String URI = "/users/{id}";
+
+        Mockito.when(userService.updateUser(Mockito.any(String.class),Mockito.any(User.class))).thenReturn(new ResponseEntity<>(HttpStatus.OK));
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.put(URI,id).accept(MediaType.APPLICATION_JSON).content(inputInJson).contentType(MediaType.APPLICATION_JSON);
+
+        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+        MockHttpServletResponse response = result.getResponse();
+        //String expectedJson = mapper.writeValueAsString(list);
+        //String outputInJson = result.getResponse().getContentAsString();
+        assertEquals(HttpStatus.OK.value(),response.getStatus());
+
+    }
+
+    @Test
+    public void deleteuser() throws Exception {
+        String id = "abc";
+        String URI = "/users/{id}";
+        Mockito.doNothing().when(userService).deleteUser(Mockito.any(String.class));
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.delete(URI,id);
+
+        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+        MockHttpServletResponse response = result.getResponse();
+        //String expectedJson = mapper.writeValueAsString(list);
+        //String outputInJson = result.getResponse().getContentAsString();
+        assertEquals(HttpStatus.OK.value(),response.getStatus());
+    }
+
+
 }

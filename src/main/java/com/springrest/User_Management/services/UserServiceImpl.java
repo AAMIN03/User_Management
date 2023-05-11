@@ -67,7 +67,7 @@ public class UserServiceImpl implements UserService {
 //	    	return new ResponseEntity<>("No user exist with requested id.",HttpStatus.NOT_FOUND);
 //	    }
 	    User user = existingUser.get();
-        return new ResponseEntity<User>(user, HttpStatus.OK);
+        return new ResponseEntity<>(user, HttpStatus.OK);
 
 //		Optional<User> userOptional = userDao.findById(mobileNo);
 //        if (userOptional.isPresent()) {
@@ -141,7 +141,7 @@ public class UserServiceImpl implements UserService {
 	        user.setFirstname(userToBeUpdated.getFirstname());
 	        user.setLastname(userToBeUpdated.getLastname());
 	        userDao.save(user);
-	        return new ResponseEntity<>(user, HttpStatus.OK);
+	        return new ResponseEntity<>("User data updated successfully.", HttpStatus.OK);
 	    } else {
 	        return new ResponseEntity<>("No user found with requested id.",HttpStatus.NOT_FOUND);
 	    }
