@@ -45,7 +45,7 @@ class MyControllerTest {
     public void setUp(){
         list = new ArrayList<>();
         list.add(new User("aab","Aamin","Chaudhari",7046757423L,"aaminchaudhari@gmail.com","hcgjc","hgjsh"));
-        System.out.println(list);
+        //System.out.println(list);
     }
 
     @Test
@@ -119,6 +119,7 @@ class MyControllerTest {
 //        System.out.println(outputInJson);
         assertEquals(HttpStatus.OK.value(),response.getStatus());
     }
+
 
     @Test
     public void adduser() throws Exception {

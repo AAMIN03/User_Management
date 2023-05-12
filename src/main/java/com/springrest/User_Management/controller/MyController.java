@@ -3,6 +3,7 @@ package com.springrest.User_Management.controller;
 import java.util.List;
 import java.util.Optional;
 
+import com.springrest.User_Management.services.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,11 @@ public class MyController {
 	
 	@Autowired
 	private UserService userService;
+
+
+
+//	@Autowired
+//	private UserServiceImpl userServiceImpl;
 	
 	@GetMapping("/home")
 	public String home() {

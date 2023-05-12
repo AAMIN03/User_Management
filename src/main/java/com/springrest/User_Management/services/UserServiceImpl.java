@@ -11,6 +11,7 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -24,16 +25,19 @@ public class UserServiceImpl implements UserService {
 	
 	@Autowired
 	private UserDao userDao;
+
+//	@Autowired
+//	private UserService userService;
 	
 	//List <User> list;
 	
-	public UserServiceImpl() {
-			
-//			list=new ArrayList<>();
-//			list.add(new User("aab","Aamin","Chaudhari",7046757423L,"aaminchaudhari@gmail.com","hcgjc","hgjsh"));
-//			list.add(new User("abb","Aamin","Chaudhari",7046757423L,"chaudhari@gmail.com","hcgjc","hgjsh"));
-//		
-		}
+//	public UserServiceImpl() {
+//
+////			list=new ArrayList<>();
+////			list.add(new User("aab","Aamin","Chaudhari",7046757423L,"aaminchaudhari@gmail.com","hcgjc","hgjsh"));
+////			list.add(new User("abb","Aamin","Chaudhari",7046757423L,"chaudhari@gmail.com","hcgjc","hgjsh"));
+////
+//		}
 
 	
 	//getting all the users
@@ -63,9 +67,9 @@ public class UserServiceImpl implements UserService {
 		//return userDao.findById(id).orElseThrow(()->new NoSuchElementException("User  not found"));
 
 		Optional<User> existingUser = userDao.findById(id);
-//	    if (existingUser.isEmpty()) {
-//	    	return new ResponseEntity<>("No user exist with requested id.",HttpStatus.NOT_FOUND);
-//	    }
+	    if (existingUser.isEmpty()) {
+	    	return new ResponseEntity<>("No user exist with requested id.",HttpStatus.NOT_FOUND);
+	    }
 	    User user = existingUser.get();
         return new ResponseEntity<>(user, HttpStatus.OK);
 
@@ -145,6 +149,8 @@ public class UserServiceImpl implements UserService {
 	    } else {
 	        return new ResponseEntity<>("No user found with requested id.",HttpStatus.NOT_FOUND);
 	    }
+
+		//make custom response
 
 	}
 

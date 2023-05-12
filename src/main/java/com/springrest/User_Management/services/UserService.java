@@ -6,6 +6,8 @@ import java.util.Optional;
 import org.springframework.http.ResponseEntity;
 
 import com.springrest.User_Management.entities.User;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 public interface UserService {
 	
