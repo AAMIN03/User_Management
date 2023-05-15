@@ -60,13 +60,8 @@ public class MyController {
 
 		//Deleting user
 		@DeleteMapping("/users/{id}")
-		public ResponseEntity<HttpStatus> deleteUser(@PathVariable String id){
-			try {
-				this.userService.deleteUser(id);
-				return new  ResponseEntity<>(HttpStatus.OK);
-			}catch(Exception e){
-				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-			}
+		public ResponseEntity<?> deleteUser(@PathVariable String id){
+				return this.userService.deleteUser(id);
 		}
 
 }

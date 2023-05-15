@@ -176,7 +176,7 @@ class MyControllerTest {
     public void deleteuser() throws Exception {
         String id = "abc";
         String URI = "/users/{id}";
-        Mockito.doNothing().when(userService).deleteUser(Mockito.any(String.class));
+        Mockito.when(userService.deleteUser(Mockito.any(String.class))).thenReturn(new ResponseEntity<>(HttpStatus.OK));
         RequestBuilder requestBuilder = MockMvcRequestBuilders.delete(URI,id);
 
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();

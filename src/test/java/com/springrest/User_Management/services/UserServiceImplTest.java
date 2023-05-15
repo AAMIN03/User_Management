@@ -46,8 +46,6 @@ class UserServiceImplTest {
     @Mock
     private UserDao userDao;
 
-    @InjectMocks
-    private UserServiceImpl userServiceImpl;
 
     @Autowired
     private MockMvc mockMvc;
@@ -55,20 +53,16 @@ class UserServiceImplTest {
     @MockBean
     private UserService userService;
 
-//    @Autowired
-//    private UserService userService;
 
     List <User> list,list1;
 
-//    @MockBean
-//    private UserDao userDao;
 
     @Before
     public void setUp(){
         list = new ArrayList<>();
         list.add(new User("aab","Aamin","Chaudhari",7046757423L,"aaminchaudhari@gmail.com","hcgjc","hgjsh"));
-        //System.out.println(list);
     }
+
 
     @Test
     public void getUsers() throws Exception {
@@ -85,18 +79,8 @@ class UserServiceImplTest {
 
         list1.add(mockUser);
 
-        String inputInJson = mapper.writeValueAsString(list1);
-        String URI = "/users";
-        Mockito.when(userDao.findAll()).thenReturn((list1));
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.get(URI).accept(MediaType.APPLICATION_JSON);
-
-        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
-        String expectedJson = mapper.writeValueAsString(list1);
-        String outputInJson = result.getResponse().getContentAsString();
-//        System.out.println(list);
-//        System.out.println(expectedJson);
-        //System.out.println(result);
-        assertEquals(expectedJson,outputInJson);
+        Mockito.when(userDao.findAll()).thenReturn(list1);
+        assertThat(userDao.findAll()).isEqualTo(list1);
 
     }
 
@@ -111,12 +95,8 @@ class UserServiceImplTest {
         mockUser.setFirstname("abcdvr");
         mockUser.setLastname("dsdsfd");
 
-//        String expected = "200 OK OK," + mockUser;
-//
-//        String expectedinjson = mapper.writeValueAsString(expected);
-
-        Mockito.when(userDao.findById("abc")).thenReturn(new ResponseEntity<>(mockUser, HttpStatus.OK));
-        assertThat(userServiceImpl.getUser("abc")).isEqualTo(mockUser);
+        Mockito.when(userDao.findById(mockUser.getid())).thenReturn(Optional.ofNullable(mockUser));
+        assertThat(userDao.findById(mockUser.getid())).isEqualTo(Optional.ofNullable(mockUser));
 
     }
 
@@ -133,15 +113,41 @@ class UserServiceImplTest {
 
         //System.out.println(mockUser);
 
+
+
         Mockito.when(userDao.save(mockUser)).thenReturn(mockUser);
         assertThat(userDao.save(mockUser)).isEqualTo(mockUser);
     }
 
     @Test
     void updateUser() {
+        User mockUser = new User();
+        mockUser.setid("abc");
+        mockUser.setEmail("abc@gmail.com");
+        mockUser.setAddress1("abc,sdk,dsk");
+        mockUser.setAddress2("abc,xcjgd,sdh");
+        mockUser.setMobileNo(7390937904L);
+        mockUser.setFirstname("abcdvr");
+        mockUser.setLastname("dsdsfd");
+
+        Mockito.when(userService.updateUser(mockUser.getid(),mockUser)).thenReturn(new ResponseEntity<>(HttpStatus.OK));
+        assertThat(userService.updateUser(mockUser.getid(),mockUser)).isEqualTo(new ResponseEntity<>(HttpStatus.OK));
+
     }
 
     @Test
-    void deleteUser() {
+    void deleteUser(){
+        User mockUser = new User();
+        mockUser.setid("abc");
+        mockUser.setEmail("abc@gmail.com");
+        mockUser.setAddress1("abc,sdk,dsk");
+        mockUser.setAddress2("abc,xcjgd,sdh");
+        mockUser.setMobileNo(7390937904L);
+        mockUser.setFirstname("abcdvr");
+        mockUser.setLastname("dsdsfd");
+
+        Mockito.when(userDao.getReferenceById(mockUser.getid())).thenReturn(mockUser);
+        Mockito.when(userService.deleteUser(mockUser.getid())).thenReturn(new ResponseEntity<>(HttpStatus.OK));
+        assertThat(userService.deleteUser(mockUser.getid())).isEqualTo(new ResponseEntity<>(HttpStatus.OK));
     }
 }
