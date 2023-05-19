@@ -21,6 +21,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import com.springrest.User_Management.Common_Methods.common_methods;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -32,6 +33,8 @@ import java.util.List;
 class MyControllerTest {
 
     ObjectMapper mapper = new ObjectMapper();
+
+    public common_methods Common_methods;
 
     @Autowired
     private MockMvc mockMvc;
@@ -58,14 +61,15 @@ class MyControllerTest {
     public void getusers() throws Exception{
 
         list1 = new ArrayList<>();
-        User mockUser = new User();
-        mockUser.setid("abc");
-        mockUser.setEmail("abc@gmail.com");
-        mockUser.setAddress1("abc,sdk,dsk");
-        mockUser.setAddress2("abc,xcjgd,sdh");
-        mockUser.setMobileNo(7390937904L);
-        mockUser.setFirstname("abcdvr");
-        mockUser.setLastname("dsdsfd");
+        //User mockUser = new User();
+        User mockUser = common_methods.getuser();
+//        mockUser.setid("abc");
+//        mockUser.setEmail("abc@gmail.com");
+//        mockUser.setAddress1("abc,sdk,dsk");
+//        mockUser.setAddress2("abc,xcjgd,sdh");
+//        mockUser.setMobileNo(7390937904L);
+//        mockUser.setFirstname("abcdvr");
+//        mockUser.setLastname("dsdsfd");
 
         list1.add(mockUser);
 
@@ -86,15 +90,17 @@ class MyControllerTest {
     @Test
     public void getuser() throws Exception{
 
+        User mockUser = common_methods.getuser();
+
         //list1 = new ArrayList<>();
-        User mockUser = new User();
-        mockUser.setid("abc");
-        mockUser.setEmail("abc@gmail.com");
-        mockUser.setAddress1("abc,sdk,dsk");
-        mockUser.setAddress2("abc,xcjgd,sdh");
-        mockUser.setMobileNo(7390937904L);
-        mockUser.setFirstname("abcdvr");
-        mockUser.setLastname("dsdsfd");
+//        User mockUser = new User();
+//        mockUser.setid("abc");
+//        mockUser.setEmail("abc@gmail.com");
+//        mockUser.setAddress1("abc,sdk,dsk");
+//        mockUser.setAddress2("abc,xcjgd,sdh");
+//        mockUser.setMobileNo(7390937904L);
+//        mockUser.setFirstname("abcdvr");
+//        mockUser.setLastname("dsdsfd");
 
         //list1.add(mockUser);
 
@@ -123,14 +129,17 @@ class MyControllerTest {
 
     @Test
     public void adduser() throws Exception {
-        User mockUser = new User();
-        mockUser.setid("abc");
-        mockUser.setEmail("abc@gmail.com");
-        mockUser.setAddress1("abc,sdk,dsk");
-        mockUser.setAddress2("abc,xcjgd,sdh");
-        mockUser.setMobileNo(7390937904L);
-        mockUser.setFirstname("abcdvr");
-        mockUser.setLastname("dsdsfd");
+
+        User mockUser = common_methods.getuser();
+
+//        User mockUser = new User();
+//        mockUser.setid("abc");
+//        mockUser.setEmail("abc@gmail.com");
+//        mockUser.setAddress1("abc,sdk,dsk");
+//        mockUser.setAddress2("abc,xcjgd,sdh");
+//        mockUser.setMobileNo(7390937904L);
+//        mockUser.setFirstname("abcdvr");
+//        mockUser.setLastname("dsdsfd");
 
         String inputInJson = mapper.writeValueAsString(mockUser);
         String message = mockUser + "  added successfully.";
@@ -148,14 +157,17 @@ class MyControllerTest {
 
     @Test
     public void updateuser() throws Exception {
-        User mockUser = new User();
-        mockUser.setid("abc");
-        mockUser.setEmail("abc@gmail.com");
-        mockUser.setAddress1("abc,sdk,dsk");
-        mockUser.setAddress2("abc,xcjgd,sdh");
-        mockUser.setMobileNo(7390937904L);
-        mockUser.setFirstname("abcdvr");
-        mockUser.setLastname("dsdsfd");
+
+        User mockUser = common_methods.getuser();
+
+//        User mockUser = new User();
+//        mockUser.setid("abc");
+//        mockUser.setEmail("abc@gmail.com");
+//        mockUser.setAddress1("abc,sdk,dsk");
+//        mockUser.setAddress2("abc,xcjgd,sdh");
+//        mockUser.setMobileNo(7390937904L);
+//        mockUser.setFirstname("abcdvr");
+//        mockUser.setLastname("dsdsfd");
 
         String inputInJson = mapper.writeValueAsString(mockUser);
         String id = "abc";

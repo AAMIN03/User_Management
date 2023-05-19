@@ -9,8 +9,8 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan(basePackages = "com.springrest.User_Management")
 @org.springframework.context.annotation.Configuration
 public class AppConfig {
-    @Bean
-    public UserService userService() {
-        return new UserServiceImpl();
-    }
+//    @Bean
+//    public UserService userService() {
+//        return new UserServiceImpl();
+//    }
 }
