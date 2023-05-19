@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.springrest.User_Management.Common_Methods.common_methods;
 import com.springrest.User_Management.dao.UserDao;
 import com.springrest.User_Management.services.UserService;
 import com.sun.source.tree.ModuleTree;
@@ -37,22 +38,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@RunWith(SpringRunner.class)
-@WebMvcTest
+@SpringBootTest
 class UserServiceImplTest {
 
     ObjectMapper mapper = new ObjectMapper();
 
-    @Mock
+    public common_methods Common_methods;
+
+    @MockBean
     private UserDao userDao;
 
 
+//    @Autowired
+//    private MockMvc mockMvc;
+
     @Autowired
-    private MockMvc mockMvc;
-
-    @MockBean
-    private UserService userService;
-
+    public UserService userService;
 
     List <User> list,list1;
 
@@ -68,86 +69,70 @@ class UserServiceImplTest {
     public void getUsers() throws Exception {
 
         list1 = new ArrayList<>();
-        User mockUser = new User();
-        mockUser.setid("abc");
-        mockUser.setEmail("abc@gmail.com");
-        mockUser.setAddress1("abc,sdk,dsk");
-        mockUser.setAddress2("abc,xcjgd,sdh");
-        mockUser.setMobileNo(7390937904L);
-        mockUser.setFirstname("abcdvr");
-        mockUser.setLastname("dsdsfd");
+        User mockUser = common_methods.getuser();
 
         list1.add(mockUser);
 
         Mockito.when(userDao.findAll()).thenReturn(list1);
-        assertThat(userDao.findAll()).isEqualTo(list1);
+        assertThat(userService.getUsers()).isEqualTo(list1);
 
     }
 
     @Test
     void getUser() throws Exception {
-        User mockUser = new User();
-        mockUser.setid("abc");
-        mockUser.setEmail("abc@gmail.com");
-        mockUser.setAddress1("abc,sdk,dsk");
-        mockUser.setAddress2("abc,xcjgd,sdh");
-        mockUser.setMobileNo(7390937904L);
-        mockUser.setFirstname("abcdvr");
-        mockUser.setLastname("dsdsfd");
 
-        Mockito.when(userDao.findById(mockUser.getid())).thenReturn(Optional.ofNullable(mockUser));
-        assertThat(userDao.findById(mockUser.getid())).isEqualTo(Optional.ofNullable(mockUser));
+        User mockUser = common_methods.getuser();
 
+        // Act
+        Mockito.when(userDao.findById(mockUser.getid())).thenReturn(Optional.of(mockUser));
+        ResponseEntity<?> response = userService.getUser(mockUser.getid());
+
+        // Assert
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(response.getBody(),mockUser);
     }
 
     @Test
     void addUser() throws Exception {
-        User mockUser = new User();
-        mockUser.setid("abc");
-        mockUser.setEmail("abc@gmail.com");
-        mockUser.setAddress1("abc,sdk,dsk");
-        mockUser.setAddress2("abc,xcjgd,sdh");
-        mockUser.setMobileNo(7390937904L);
-        mockUser.setFirstname("abcdvr");
-        mockUser.setLastname("dsdsfd");
+        User mockUser = common_methods.getuser();
+        String message = mockUser + "  added successfully.";
 
-        //System.out.println(mockUser);
-
-
-
+        // Act
         Mockito.when(userDao.save(mockUser)).thenReturn(mockUser);
-        assertThat(userDao.save(mockUser)).isEqualTo(mockUser);
+        ResponseEntity<?> response = userService.addUser(mockUser);
+
+        // Assert
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        assertEquals(response.getBody(),message);
     }
 
     @Test
     void updateUser() {
-        User mockUser = new User();
-        mockUser.setid("abc");
-        mockUser.setEmail("abc@gmail.com");
-        mockUser.setAddress1("abc,sdk,dsk");
-        mockUser.setAddress2("abc,xcjgd,sdh");
-        mockUser.setMobileNo(7390937904L);
-        mockUser.setFirstname("abcdvr");
-        mockUser.setLastname("dsdsfd");
 
-        Mockito.when(userService.updateUser(mockUser.getid(),mockUser)).thenReturn(new ResponseEntity<>(HttpStatus.OK));
-        assertThat(userService.updateUser(mockUser.getid(),mockUser)).isEqualTo(new ResponseEntity<>(HttpStatus.OK));
+        User mockUser = common_methods.getuser();
+
+        // Act
+        Mockito.when(userDao.findById(mockUser.getid())).thenReturn(Optional.of(mockUser));
+        ResponseEntity<?> response = userService.updateUser(mockUser.getid(),mockUser);
+
+        // Assert
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNull(response.getBody());
 
     }
 
     @Test
     void deleteUser(){
-        User mockUser = new User();
-        mockUser.setid("abc");
-        mockUser.setEmail("abc@gmail.com");
-        mockUser.setAddress1("abc,sdk,dsk");
-        mockUser.setAddress2("abc,xcjgd,sdh");
-        mockUser.setMobileNo(7390937904L);
-        mockUser.setFirstname("abcdvr");
-        mockUser.setLastname("dsdsfd");
+        User mockUser = common_methods.getuser();
 
+        // Act
         Mockito.when(userDao.getReferenceById(mockUser.getid())).thenReturn(mockUser);
-        Mockito.when(userService.deleteUser(mockUser.getid())).thenReturn(new ResponseEntity<>(HttpStatus.OK));
-        assertThat(userService.deleteUser(mockUser.getid())).isEqualTo(new ResponseEntity<>(HttpStatus.OK));
+        ResponseEntity<?> response = userService.deleteUser(mockUser.getid());
+
+        // Assert
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNull(response.getBody());
+
     }
+
 }

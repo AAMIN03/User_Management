@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.springrest.User_Management.services.UserServiceImpl;
+import com.springrest.User_Management.services.WalletService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,13 +19,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.springrest.User_Management.entities.User;
 import com.springrest.User_Management.services.UserService;
 
+
 @RestController
 public class MyController {
 	
 	@Autowired
 	private UserService userService;
-
-
 
 //	@Autowired
 //	private UserServiceImpl userServiceImpl;
@@ -49,6 +49,7 @@ public class MyController {
 		//Adding user
 		@PostMapping("/users")
 		public ResponseEntity<?> addUser(@RequestBody User user) {
+			//System.out.println(user);
 			return this.userService.addUser(user);
 		}
 
