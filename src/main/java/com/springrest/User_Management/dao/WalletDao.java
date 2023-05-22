@@ -13,4 +13,6 @@ public interface WalletDao extends JpaRepository <Wallet,Long> {
     boolean existsByMobileNo(long mobileNo);
 
     Optional<Wallet> findBymobileNo(long mobileNo);
+
+    Optional<Object> findByMobileNo(long MobileNo);
 }

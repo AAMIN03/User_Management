@@ -14,7 +14,12 @@ public interface WalletService {
 
     Transaction maketransaction(Transaction transaction);
 
-    List<Transaction> getTransactions(long userid);
 
-    Optional<Transaction> gettransactionsummary(long txnid);
+    //List<Transaction> getTransactionSummaryByUserId(Long userId);
+
+    //Page<Transaction> getTransactionSummaryByUserId(Long userId, java.awt.print.Pageable pageable);
+
+    List<Transaction> getTransactionSummaryByUserId(long userid);
+
+    Optional<Transaction> getTransactionByTxnId(long txnId);
 }

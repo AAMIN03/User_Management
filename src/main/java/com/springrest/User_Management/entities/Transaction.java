@@ -5,6 +5,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
+import java.math.BigDecimal;
+
 
 @Entity
 public class Transaction {
@@ -15,10 +17,10 @@ public class Transaction {
     //private String Account_name;
     private long payer_mobileNo;
     private long payee_mobileNo;
-    private long amount;
+    private BigDecimal amount;
     private String status; //  Successful/Unsuccessful
 
-    public Transaction(long txnID, long  payer_mobileNo, long payee_mobileNo,long amount, String status) {
+    public Transaction(long txnID, long  payer_mobileNo, long payee_mobileNo,BigDecimal amount, String status) {
         super();
         this.txnID = txnID;
         this.payee_mobileNo = payee_mobileNo;
@@ -55,11 +57,11 @@ public class Transaction {
         this.payee_mobileNo = payee_mobileNo;
     }
 
-    public long getAmount(){
+    public BigDecimal getAmount(){
         return amount;
     }
 
-    public void setAmount(long amount){
+    public void setAmount(BigDecimal amount){
         this.amount = amount;
     }
 

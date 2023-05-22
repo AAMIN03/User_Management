@@ -46,23 +46,23 @@ public class MyController {
 		return this.userService.getUser(id);
 	}
 
-		//Adding user
-		@PostMapping("/users")
-		public ResponseEntity<?> addUser(@RequestBody User user) {
-			//System.out.println(user);
-			return this.userService.addUser(user);
-		}
+	//Adding user
+	@PostMapping("/users")
+	public ResponseEntity<?> addUser(@RequestBody User user) {
+		//System.out.println(user);
+		return this.userService.addUser(user);
+	}
 
-		//Updating user
-		@PutMapping("/users/{id}")
-		public ResponseEntity<?> updateUser(@PathVariable String id, @RequestBody User user) {
-			return this.userService.updateUser(id,user);
-		}
+	//Updating user
+	@PutMapping("/users/{id}")
+	public ResponseEntity<?> updateUser(@PathVariable String id, @RequestBody User user) {
+		return this.userService.updateUser(id,user);
+	}
 
-		//Deleting user
-		@DeleteMapping("/users/{id}")
-		public ResponseEntity<?> deleteUser(@PathVariable String id){
-				return this.userService.deleteUser(id);
-		}
+	//Deleting user
+	@DeleteMapping("/users/{id}")
+	public ResponseEntity<?> deleteUser(@PathVariable String id){
+		return this.userService.deleteUser(id);
+	}
 
 }

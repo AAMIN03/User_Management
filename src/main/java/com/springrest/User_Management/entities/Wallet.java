@@ -1,18 +1,22 @@
 package com.springrest.User_Management.entities;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+
+import java.math.BigDecimal;
 
 @Entity
 public class Wallet {
 
     @Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long userid;
     private long mobileNo;
-    private long Current_balance;
+    private BigDecimal Current_balance;
 
-    public Wallet(long userid, long  mobileNo, long Current_balance) {
+    public Wallet(long userid, long  mobileNo, BigDecimal Current_balance) {
         super();
         this.userid = userid;
         this.mobileNo = mobileNo;
@@ -39,11 +43,11 @@ public class Wallet {
         this.mobileNo = mobileNo;
     }
 
-    public long getCurrent_balance(){
+    public BigDecimal getCurrent_balance(){
         return Current_balance;
     }
 
-    public void setCurrent_balance(long Current_balance){
+    public void setCurrent_balance(BigDecimal Current_balance){
         this.Current_balance = Current_balance;
     }
 
