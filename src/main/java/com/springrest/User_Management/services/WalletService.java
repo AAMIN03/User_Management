@@ -2,8 +2,10 @@ package com.springrest.User_Management.services;
 
 import com.springrest.User_Management.entities.Transaction;
 import com.springrest.User_Management.entities.Wallet;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,12 +14,8 @@ public interface WalletService {
 
     public Wallet createORupdate (Wallet wallet);
 
-    Transaction maketransaction(Transaction transaction);
+    ResponseEntity <?> transfermoney(long payee_mobileNo, long payer_mobileNo, BigDecimal amount);
 
-
-    //List<Transaction> getTransactionSummaryByUserId(Long userId);
-
-    //Page<Transaction> getTransactionSummaryByUserId(Long userId, java.awt.print.Pageable pageable);
 
     List<Transaction> getTransactionSummaryByUserId(long userid);
 

@@ -3,6 +3,7 @@ package com.springrest.User_Management.controller;
 import java.util.List;
 import java.util.Optional;
 
+import com.springrest.User_Management.Dto.AuthRequest;
 import com.springrest.User_Management.services.UserServiceImpl;
 import com.springrest.User_Management.services.WalletService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,6 +64,11 @@ public class MyController {
 	@DeleteMapping("/users/{id}")
 	public ResponseEntity<?> deleteUser(@PathVariable String id){
 		return this.userService.deleteUser(id);
+	}
+
+	@PostMapping("/authenticate")
+	public String authenticateAndGetToken(@RequestBody AuthRequest authRequest){
+		return null;
 	}
 
 }

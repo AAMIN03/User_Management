@@ -7,6 +7,7 @@ import com.springrest.User_Management.entities.Transaction;
 import com.springrest.User_Management.entities.User;
 import com.springrest.User_Management.entities.Wallet;
 import com.springrest.User_Management.services.WalletService;
+import com.springrest.User_Management.CommonMethods.commonMethods;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.awt.print.Pageable;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,9 +25,13 @@ import java.util.Optional;
 @RestController
 public class WalletController {
 
-    public TransactionDao transactionDao;
+    public commonMethods commonmethods = new commonMethods();
+    @Autowired
     public WalletDao walletDao;
-    //public UserDao userDao;
+
+    @Autowired
+    public TransactionDao transactionDao;
+
     @Autowired
     public WalletService walletService;
 
@@ -36,35 +42,62 @@ public class WalletController {
 
 	@PostMapping("/wallet")
 	public ResponseEntity <?> createORupdate(@RequestBody Wallet wallet){
-        Wallet user = (Wallet) walletDao.findByMobileNo(wallet.getMobileNo()).orElseThrow(() -> new IllegalArgumentException("Payer wallet not found"));
-        Wallet walletSaved = this.walletService.createORupdate(wallet);
-			return new ResponseEntity<>(wallet, HttpStatus.CREATED);
+        if(!walletDao.existsByMobileNo(wallet.getMobileNo())) {
+            Wallet walletSaved = this.walletService.createORupdate(wallet);
+            return new ResponseEntity<>(wallet, HttpStatus.CREATED);
+        }
+        return new ResponseEntity<>("Wallet already exists with requested mobile no.",HttpStatus.BAD_REQUEST);
 	}
 
-
     @PostMapping("/Transaction")
-    public ResponseEntity <?> transaction (@RequestBody Transaction transaction1){
-        Transaction transactionSaved = this.walletService.maketransaction(transaction1);
-        return new ResponseEntity<>(transaction1,HttpStatus.OK);
+    public ResponseEntity <?> transaction (@RequestParam("payee_mobileNo") long payee_mobileNo,
+                                           @RequestParam("payer_mobileNo") long payer_mobileNo,
+                                           @RequestParam("amount") BigDecimal amount ){
+
+        if(!walletDao.existsByMobileNo(payee_mobileNo)){
+            return new ResponseEntity<>("Wallet not exists with requested payee_mobileNo.",HttpStatus.NOT_FOUND);
+        }
+
+        if(!walletDao.existsByMobileNo(payer_mobileNo)){
+            return new ResponseEntity<>("Wallet not exists with requested payer_mobileNo.",HttpStatus.NOT_FOUND);
+        }
+
+        Wallet payerWallet = (Wallet) walletDao.findByMobileNo(payer_mobileNo)
+                .orElseThrow(() -> new IllegalArgumentException("Payer wallet not found"));
+
+        BigDecimal payerBalance = payerWallet.getCurrent_balance();
+
+        Wallet payeeWallet = (Wallet) walletDao.findByMobileNo(payee_mobileNo)
+                .orElseThrow(() -> new IllegalArgumentException("Payee wallet not found"));
+
+        if (payerBalance.compareTo(amount) < 0) {
+            Transaction transaction = commonmethods.failTransaction(payerWallet.getUserid(),payeeWallet.getUserid(),amount);
+            transactionDao.save(transaction);
+            return new ResponseEntity<>("Payer doesn't have sufficient amount.",HttpStatus.BAD_REQUEST);
+        }
+        Transaction transaction = commonmethods.successfulTransaction(payerWallet.getUserid(),payeeWallet.getUserid(),amount);
+        transactionDao.save(transaction);
+
+        ResponseEntity <?> response = this.walletService.transfermoney(payee_mobileNo,payer_mobileNo,amount);
+        return new ResponseEntity<>(response,HttpStatus.OK);
+
     }
 
-    @GetMapping("/Transaction/{userid}")
-    public ResponseEntity <?> getTransactions (@PathVariable long userid){
+    @GetMapping("/Transaction/Summary")
+    public ResponseEntity <?> getTransactions (@RequestParam("userid") long userid){
+        if(!walletDao.existsById(userid)){
+            return new ResponseEntity<>("User not exists.",HttpStatus.NOT_FOUND);
+        }
         List<Transaction> transactions = this.walletService.getTransactionSummaryByUserId(userid);
         return new ResponseEntity<>(transactions,HttpStatus.OK);
     }
 
-//    @GetMapping("/Transaction/{userid}")
-//    public Page<Transaction> getTransactionSummary(
-//            @RequestParam("userId") Long userId,
-//            @RequestParam(value = "page", defaultValue = "0") int page,
-//            @RequestParam(value = "size", defaultValue = "10") int size) {
-//        PageRequest pageable = PageRequest.of(page, size);
-//        return walletService.getTransactionSummaryByUserId(userId, (Pageable) pageable);
-//    }
 
-    @GetMapping("/Transaction/{txnID}")
-    public ResponseEntity <?> transactionStatus (@PathVariable long txnid){
+    @GetMapping("Transaction")
+    public ResponseEntity <?> transactionStatus (@RequestParam("txnid") long txnid){
+        if(!transactionDao.existsById(txnid)){
+            return new ResponseEntity<>("Transaction not exists with requested txnid.",HttpStatus.NOT_FOUND);
+        }
         Optional<Transaction> transaction = this.walletService.getTransactionByTxnId(txnid);
         return new ResponseEntity<>(transaction,HttpStatus.OK);
     }

@@ -15,16 +15,17 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long txnID;
     //private String Account_name;
-    private long payer_mobileNo;
-    private long payee_mobileNo;
-    private BigDecimal amount;
-    private String status; //  Successful/Unsuccessful
 
-    public Transaction(long txnID, long  payer_mobileNo, long payee_mobileNo,BigDecimal amount, String status) {
+    private long payerid;
+    private long payeeid;
+    private BigDecimal amount;
+    private String status; //  Success/failure
+
+    public Transaction(long txnID, long  payeeid, long payerid,BigDecimal amount, String status) {
         super();
         this.txnID = txnID;
-        this.payee_mobileNo = payee_mobileNo;
-        this.payer_mobileNo = payer_mobileNo;
+        this.payeeid = payeeid;
+        this.payerid = payerid;
         this.amount = amount;
         this.status = status;
     }
@@ -41,20 +42,20 @@ public class Transaction {
         this.txnID = txnID;
     }
 
-    public long getPayer_mobileNo(){
-        return payer_mobileNo;
+    public long getPayerid(){
+        return payerid;
     }
 
-    public void setPayer_mobileNo(long payer_mobileNo){
-        this.payer_mobileNo = payer_mobileNo;
+    public void setPayerid(long payerid){
+        this.payerid = payerid;
     }
 
-    public long getPayee_mobileNo(){
-        return payee_mobileNo;
+    public long getPayeeid(){
+        return payeeid;
     }
 
-    public void setPayee_mobileNo(long payee_mobileNo){
-        this.payee_mobileNo = payee_mobileNo;
+    public void setPayeeid(long payeeid){
+        this.payeeid = payeeid;
     }
 
     public BigDecimal getAmount(){
@@ -75,7 +76,7 @@ public class Transaction {
 
     @Override
     public String toString() {
-        return "Transaction [txnID =" + txnID + ", payee_mobileNo=" + payee_mobileNo + ", payer_mobileNo=" + payer_mobileNo + ", amount =" + amount +", status =" + status +"]";
+        return "Transaction [txnID =" + txnID + ", payee_mobileNo=" + payeeid + ", payer_mobileNo=" + payerid + ", amount =" + amount +", status =" + status +"]";
     }
 
 }
