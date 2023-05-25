@@ -47,7 +47,7 @@ class MyControllerTest {
     @Before
     public void setUp(){
         list = new ArrayList<>();
-        list.add(new User("aab","Aamin","Chaudhari",7046757423L,"aaminchaudhari@gmail.com","hcgjc","hgjsh"));
+        list.add(new User("aab","Aamin","Chaudhari","7046757423","aaminchaudhari@gmail.com","hcgjc","hgjsh"));
         //System.out.println(list);
     }
 

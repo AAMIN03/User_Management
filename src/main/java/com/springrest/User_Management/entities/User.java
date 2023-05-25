@@ -1,4 +1,5 @@
 package com.springrest.User_Management.entities;
+import javax.validation.constraints.Pattern;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -10,12 +11,13 @@ public class User {
 	private String id;
 	private String firstname;
 	private String lastname;
-	private long mobileNo;
+	@Pattern(regexp = "^[0-9]{10}$", message = "Invalid mobile number")
+	private String mobileNo;
 	private String email;
 	private String address1;
 	private String address2;
 	
-	public User(String id, String firstname, String lastname, long  mobileNo, String email, String address1,
+	public User(String id, String firstname, String lastname, String  mobileNo, String email, String address1,
 			String address2) {
 		super();
 		this.id = id;
@@ -50,10 +52,10 @@ public class User {
 	public void setLastname(String lastname) {
 		this.lastname = lastname;
 	}
-	public long getMobileNo() {
+	public String getMobileNo() {
 		return mobileNo;
 	}
-	public void setMobileNo(long mobileNo) {
+	public void setMobileNo(String mobileNo) {
 		this.mobileNo = mobileNo;
 	}
 	public String getEmail() {

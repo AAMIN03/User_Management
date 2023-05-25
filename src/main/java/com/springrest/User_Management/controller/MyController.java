@@ -9,6 +9,7 @@ import com.springrest.User_Management.services.WalletService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,8 +21,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.springrest.User_Management.entities.User;
 import com.springrest.User_Management.services.UserService;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Pattern;
+
 
 @RestController
+@Validated
 public class MyController {
 	
 	@Autowired
@@ -50,13 +55,17 @@ public class MyController {
 	//Adding user
 	@PostMapping("/users")
 	public ResponseEntity<?> addUser(@RequestBody User user) {
-		//System.out.println(user);
-		return this.userService.addUser(user);
+		String regexp = "\\d{10}";
+		if(user.getMobileNo().matches(regexp)){
+			return this.userService.addUser(user);
+		}else {
+			return new ResponseEntity<>("Invalid mobile no.", HttpStatus.BAD_REQUEST);
+		}
 	}
 
 	//Updating user
 	@PutMapping("/users/{id}")
-	public ResponseEntity<?> updateUser(@PathVariable String id, @RequestBody User user) {
+	public ResponseEntity<?> updateUser(@PathVariable String id,@Valid @RequestBody User user) {
 		return this.userService.updateUser(id,user);
 	}
 

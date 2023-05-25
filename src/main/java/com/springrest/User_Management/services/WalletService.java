@@ -14,7 +14,7 @@ public interface WalletService {
 
     public Wallet createORupdate (Wallet wallet);
 
-    ResponseEntity <?> transfermoney(long payee_mobileNo, long payer_mobileNo, BigDecimal amount);
+    ResponseEntity <?> transfermoney(String payee_mobileNo, String payer_mobileNo, BigDecimal amount);
 
 
     List<Transaction> getTransactionSummaryByUserId(long userid);

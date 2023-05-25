@@ -5,6 +5,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
+import javax.validation.constraints.Pattern;
 import java.math.BigDecimal;
 
 @Entity
@@ -13,10 +14,11 @@ public class Wallet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long userid;
-    private long mobileNo;
+    @Pattern(regexp = "^[0-9]{10}$", message = "Invalid mobile number")
+    private String mobileNo;
     private BigDecimal Current_balance;
 
-    public Wallet(long userid, long  mobileNo, BigDecimal Current_balance) {
+    public Wallet(long userid, String  mobileNo, BigDecimal Current_balance) {
         super();
         this.userid = userid;
         this.mobileNo = mobileNo;
@@ -25,6 +27,7 @@ public class Wallet {
 
     public Wallet() {
         super();
+        this.Current_balance = BigDecimal.ZERO;
         // TODO Auto-generated constructor stub
     }
 
@@ -35,11 +38,11 @@ public class Wallet {
         this.userid = userid;
     }
 
-    public long getMobileNo(){
+    public String getMobileNo(){
         return mobileNo;
     }
 
-    public void setMobileNo(long mobileNo){
+    public void setMobileNo(String mobileNo){
         this.mobileNo = mobileNo;
     }
 

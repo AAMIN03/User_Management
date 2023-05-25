@@ -51,11 +51,11 @@ public class WalletServiceImpl implements WalletService{
 
     @Override
     @Transactional
-    public ResponseEntity <?> transfermoney(long payee_mobileNo, long payer_mobileNo, BigDecimal amount) {
-        Wallet payerWallet = (Wallet) walletDao.findByMobileNo(payer_mobileNo)
+    public ResponseEntity <?> transfermoney(String payee_mobileNo, String payer_mobileNo, BigDecimal amount) {
+        Wallet payerWallet = (Wallet) walletDao.findByMobileNo(String.valueOf(payer_mobileNo))
                 .orElseThrow(() -> new IllegalArgumentException("Payer wallet not found"));
 
-        Wallet payeeWallet = (Wallet) walletDao.findByMobileNo(payee_mobileNo)
+        Wallet payeeWallet = (Wallet) walletDao.findByMobileNo(String.valueOf(payee_mobileNo))
                 .orElseThrow(() -> new IllegalArgumentException("Payee wallet not found"));
 
         BigDecimal payerBalance = payerWallet.getCurrent_balance();

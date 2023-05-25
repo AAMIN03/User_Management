@@ -10,9 +10,9 @@ import java.util.Optional;
 @Repository
 public interface WalletDao extends JpaRepository <Wallet,Long> {
 
-    boolean existsByMobileNo(long mobileNo);
+    boolean existsByMobileNo(String mobileNo);
 
-    Optional<Wallet> findBymobileNo(long mobileNo);
+    Optional<Wallet> findBymobileNo(String mobileNo);
 
-    Optional<Object> findByMobileNo(long MobileNo);
+    Optional<Object> findByMobileNo(String MobileNo);
 }

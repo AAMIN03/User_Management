@@ -61,6 +61,9 @@ public class UserServiceImpl implements UserService {
 	    if (userDao.existsByMobileNo(user.getMobileNo())) {
 	        return new ResponseEntity<>("User already exists.", HttpStatus.BAD_REQUEST);
 	    }
+
+
+
 	    userDao.save(user);
 	    String message = user + "  added successfully.";
 	    return new ResponseEntity<>(message,HttpStatus.CREATED);
