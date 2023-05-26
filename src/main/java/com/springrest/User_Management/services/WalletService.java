@@ -20,4 +20,6 @@ public interface WalletService {
     List<Transaction> getTransactionSummaryByUserId(long userid);
 
     Optional<Transaction> getTransactionByTxnId(long txnId);
+
+    BigDecimal addMoney(String mobileNo, BigDecimal amount);
 }

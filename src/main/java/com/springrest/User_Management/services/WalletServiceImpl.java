@@ -32,13 +32,27 @@ public class WalletServiceImpl implements WalletService{
     }
 
     @Override
+    public BigDecimal addMoney(String mobileNo,BigDecimal amount){
+        Wallet wallet = (Wallet) walletDao.findByMobileNo(mobileNo)
+                .orElseThrow(() -> new IllegalArgumentException("wallet not found"));
+
+        BigDecimal currentbalance = wallet.getCurrent_balance();
+        //System.out.println(currentbalance);
+        BigDecimal newBalance = currentbalance.add(amount);
+        //System.out.println(newBalance);
+        wallet.setCurrent_balance(newBalance);
+        walletDao.save(wallet);
+        return newBalance;
+    }
+
+    @Override
     public List<Transaction> getTransactionSummaryByUserId(long userid){
 
         List<Transaction> transactionList = new ArrayList<>();
         List<Transaction> payeeTransactions = transactionDao.getTransactionsByPayeeid(userid);
-        transactionList.addAll(payeeTransactions);
         List<Transaction> payerTransactions = transactionDao.getTransactionsByPayerid(userid);
         transactionList.addAll(payerTransactions);
+        transactionList.addAll(payeeTransactions);
 
         return transactionList;
     }

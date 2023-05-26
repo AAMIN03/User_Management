@@ -3,12 +3,15 @@ package com.springrest.User_Management.controller;
 import java.util.List;
 import java.util.Optional;
 
-import com.springrest.User_Management.Dto.AuthRequest;
+//import com.springrest.User_Management.Dto.AuthRequest;
+//import com.springrest.User_Management.services.JwtToken;
 import com.springrest.User_Management.services.UserServiceImpl;
+import com.springrest.User_Management.services.ValidationErrorService;
 import com.springrest.User_Management.services.WalletService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,8 +36,11 @@ public class MyController {
 	private UserService userService;
 
 //	@Autowired
-//	private UserServiceImpl userServiceImpl;
-	
+//	private JwtToken jwtToken;
+
+	@Autowired
+	private ValidationErrorService validationService;
+
 	@GetMapping("/home")
 	public String home() {
 		return "Welcome to the User Management portal.";
@@ -43,6 +49,10 @@ public class MyController {
 	//Get the Users
 	@GetMapping("/users")
 	public List<User> getUsers(){
+//		ResponseEntity errors = validationService.validate(result);
+//		if(errors != null){
+//			return errors;
+//		}
 		return this.userService.getUsers();
 	}
 
@@ -75,9 +85,12 @@ public class MyController {
 		return this.userService.deleteUser(id);
 	}
 
-	@PostMapping("/authenticate")
-	public String authenticateAndGetToken(@RequestBody AuthRequest authRequest){
-		return null;
-	}
+//	@PostMapping("/authenticate")
+//	public String authenticateAndGetToken(@RequestBody AuthRequest authRequest){
+//		return jwtToken.generateToken(authRequest.getUsername());
+//	}
+
+
+
 
 }

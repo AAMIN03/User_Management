@@ -17,4 +17,5 @@ public interface UserDao extends JpaRepository<User,String>{
     boolean existsById(String id);
     boolean existsByMobileNo(String mobileNo);
 
+    Optional<User> findByFirstname(String username);
 }
