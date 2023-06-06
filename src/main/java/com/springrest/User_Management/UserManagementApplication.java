@@ -16,7 +16,7 @@ public class UserManagementApplication {
 	@Bean
 	CommandLineRunner commandLineRunner(KafkaTemplate<String ,String> kafkaTemplate){
 			return args -> {
-				kafkaTemplate.send("NewTopic1","Hii There!");
+				//kafkaTemplate.send("NewTopic1","Hii There!");
 			};
 	}
 
